@@ -1,0 +1,84 @@
+# Clone the repository using Git
+git clone https://github.com/PhonePe/pulse.git
+
+import pandas as pd
+
+# Load data using pandas
+data = pd.read_csv("path/to/data.csv")
+
+# Perform data cleaning and transformation
+# ...
+
+# Save the cleaned data
+data.to_csv("cleaned_data.csv", index=False)
+
+import mysql.connector
+
+# Establish a connection to the MySQL server
+db = mysql.connector.connect(
+    host="localhost",
+    user="username",
+    password="password",
+    database="your_database"
+)
+
+# Create a cursor
+cursor = db.cursor()
+
+# Create a table if not exists
+create_table_query = """
+CREATE TABLE IF NOT EXISTS data (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    column1 DATATYPE,
+    column2 DATATYPE,
+    ...
+)
+"""
+cursor.execute(create_table_query)
+
+# Insert data into the table
+insert_query = "INSERT INTO data (column1, column2, ...) VALUES (%s, %s, ...)"
+for row in cleaned_data.iterrows():
+    cursor.execute(insert_query, tuple(row))
+
+# Commit changes and close the connection
+db.commit()
+cursor.close()
+db.close()
+
+import streamlit as st
+import plotly.express as px
+import mysql.connector
+import pandas as pd
+
+# Connect to the MySQL database
+db = mysql.connector.connect(
+    host="localhost",
+    user="username",
+    password="password",
+    database="your_database"
+)
+
+# Fetch data from the database
+query = "SELECT * FROM data"
+data = pd.read_sql(query, db)
+
+# Streamlit app
+st.title("PhonePe Pulse Data Visualization")
+
+# Create dropdown for users to select data
+selected_data = st.selectbox("Select data:", data.columns)
+
+# Create map using Plotly
+fig = px.scatter_geo(data, lat="latitude_column", lon="longitude_column", text="location_name", title="Geo Visualization")
+st.plotly_chart(fig)
+
+# Add dropdown for users to select different facts and figures
+selected_fact = st.selectbox("Select a fact to display:", ["Fact 1", "Fact 2", "Fact 3", ...])
+
+# Display the selected fact dynamically
+if selected_fact == "Fact 1":
+    # Display corresponding data visualization
+elif selected_fact == "Fact 2":
+    # Display another visualization
+# ...
